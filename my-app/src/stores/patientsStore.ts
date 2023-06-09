@@ -27,8 +27,8 @@ class PatientsStore {
     }
   }
 
-  public createPatient(patientData: PatientPostDto) {
-    // const patientData: PatientPostDto = {};
+  public createPatient() {
+    const patientData: PatientPostDto = this.patientForm.getPostDto();
 
     fetch("http://localhost:8000/patients/", {
       method: "POST",
@@ -39,7 +39,7 @@ class PatientsStore {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        this.getPatients();
         // Обработка ответа после создания пациента
       })
       .catch((error) => {
@@ -47,12 +47,50 @@ class PatientsStore {
       });
   }
 
+  updatePatient() {
+    const patientData = this.patientForm.getPutDto();
+
+    fetch(`http://localhost:8000/patients/${patientData.id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(patientData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.getPatients();
+        // Обработка ответа после создания пациента
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  public onSubmit() {
+    try {
+      if (this.patientForm.id) {
+        this.updatePatient();
+      } else {
+        this.createPatient();
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.closeForm();
+    }
+  }
+
   public showForm = (dto?: PatientGetDto) => {
+    if (dto) this.patientForm.updateFromDto(dto);
+
     this.isFormVisible = true;
   };
 
   public closeForm = () => {
     this.isFormVisible = false;
+    this.patientForm.deInit();
   };
 }
 

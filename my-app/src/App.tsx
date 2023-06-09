@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 
-import { patientsStore } from "./stores";
+import { diseaseStore } from "./stores";
 import Tabs from "./pages/Tabs";
 
+import "sanitize.css";
 import "./App.css";
 
 function App() {
   useEffect(() => {
-    patientsStore.getPatients();
+    diseaseStore.getDiseases();
   }, []);
 
   return (

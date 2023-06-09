@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { GenderEnum, PatientGetDto } from "../index";
+import { GenderEnum, PatientGetDto, PatientPostDto } from "../index";
 
 class PatientFormModel {
   public id: number | null = null;
@@ -8,9 +8,9 @@ class PatientFormModel {
   public gender: GenderEnum = GenderEnum.Men;
   public height = 0;
   public weight = 0;
-  public anamnesisId = 0;
-  public apStudyId = 0;
-  public diseaseId = 0;
+  public anamnesisId: number | null = null;
+  public apStudyId: number | null = null;
+  public diseaseId: number | null = null;
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
@@ -58,31 +58,43 @@ class PatientFormModel {
     this.diseaseId = dto.diseaseId;
   }
 
-  public getPutDto() {
+  public getPutDto(): PatientGetDto {
     return {
-      id: this.id,
+      id: this.id!,
       age: this.age,
       fullName: this.fullName,
       gender: this.gender,
       height: this.height,
       weight: this.weight,
-      anamnesisId: this.anamnesisId,
-      apStudyId: this.apStudyId,
-      diseaseId: this.diseaseId,
+      anamnesisId: this.anamnesisId!,
+      apStudyId: this.apStudyId!,
+      diseaseId: this.diseaseId!,
     };
   }
 
-  public getPostDto() {
+  public getPostDto(): PatientPostDto {
     return {
       age: this.age,
       fullName: this.fullName,
       gender: this.gender,
       height: this.height,
       weight: this.weight,
-      anamnesisId: this.anamnesisId,
-      apStudyId: this.apStudyId,
-      diseaseId: this.diseaseId,
+      anamnesisId: this.anamnesisId!,
+      apStudyId: this.apStudyId!,
+      diseaseId: this.diseaseId!,
     };
+  }
+
+  public deInit() {
+    this.id = null;
+    this.age = 0;
+    this.fullName = "";
+    this.gender = GenderEnum.Men;
+    this.height = 0;
+    this.weight = 0;
+    this.anamnesisId = null;
+    this.apStudyId = null;
+    this.diseaseId = null;
   }
 }
 

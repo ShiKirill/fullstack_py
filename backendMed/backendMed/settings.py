@@ -129,3 +129,13 @@ CORS_ALLOWED_ORIGINS = [
     # Укажите список разрешенных доменов для запросов
     'http://localhost:3000',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
